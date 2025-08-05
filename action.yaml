@@ -1,26 +1,68 @@
 name: "Generate SPEC-0000 Data"
 description: "Based on the current SPEC 0 schedule, generate a tarball with the latest versions of all packages."
+author: Sam Vente
+inputs:
+  target_branch:
+    description: 'Target branch for the pull request'
+    required: true
+    default: 'main'
+  tool: # for now only pixi, but good to make others possible from the start
+    description: 'Which tool you use for managing your environment.'
+    required: true
+    default: 'pixi'
+  github_token:
+    description: 'GitHub token with repo permissions to create pull requests'
+    required: true
+
+
+
 
 runs:
   using: "composite"
   steps:
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: "3.13"
-    - name: Install dependencies
+    - name: Validate tool input
       shell: bash
       run: |
-        pip install -r requirements.txt
-    - name: Run spec_zero_versions.py
+        if [[ "${{ inputs.tool }}" != "pixi" ]]; then
+          echo "❌ Invalid tool: '${{ inputs.tool }}'"
+          echo "Accepted values are: 'pixi'"
+          exit 1
+        fi
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Git
       shell: bash
       run: |
-        python spec_zero_versions.py
-    - name: Upload files as an artifact
-      uses: actions/upload-artifact@v4
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+
+    - name: Download schedule artifact
+      shell: bash
+      run: gh release download -R "savente93/spec-zero-tools" --pattern schedule.json --clobber
+
+      # make usre pixi is available
+    - uses: prefix-dev/setup-pixi@v0.8.14
+      if: ${{ inputs.tool == 'pixi' }}
+      name: Setup pixi
       with:
-        name: spec-zero-versions
-        path: |
-          schedule.json
-          schedule.md
-          chart.md
+        pixi-version: v0.49.0
+
+    - name: Update Pixi dependencies
+      if: ${{ inputs.tool == 'pixi' }}
+      shell: bash
+      run: |
+        "${{ github.action_path }}/update_pixi.sh"
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v6
+      with:
+        token: ${{ inputs.github_token }}
+        commit-message: "chore: Drop support for unsupported packages conform SPEC 0"
+        title: "Drop support for unsupported packages conform SPEC 0"
+        body: "This PR was created automatically"
+        base: ${{ inputs.target_branch }}
+        branch: update-spec-0-dependencies-${{ github.run_id }}
+
