@@ -25,11 +25,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: scientific-python/spec-zero-tools@main
-        with: 
+        with:
           token: ${{ secrets.GH_PAT }}
           target_branch: main
           tool: pixi
-
 ```
 
 Whenever the action is triggered it will open a PR in your repository that will update the dependencies of SPEC 0 to the new lower bound. For this you will have to provide it with a PAT that has write permissions in the `contents` and `pull request` scopes. Please refer to the GitHub documentation for instructions on how to do this [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
@@ -38,19 +37,17 @@ To help projects stay compliant with SPEC-0, we provide a `schedule.json` file t
 
 Currently the action can take the following inputs:
 
-| Name          | Description                                                                                                 | Required |
-|---------------|-------------------------------------------------------------------------------------------------------------|----------|
-| `token`       | The token that the action will use to create and update the pull request. See [token](https://github.com/marketplace/actions/create-pull-request#token). | Yes      |
-| `tool`        | Which tool to use for managing your dependencies. Currently `pixi` is the only option.                     | No       |
-| `target_branch` | The branch to open a PR against with the updated versions. Defaults to `main`.                             | No       |
-
+| Name            | Description                                                                                                                                              | Required |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
+| `token`         | The token that the action will use to create and update the pull request. See [token](https://github.com/marketplace/actions/create-pull-request#token). | Yes      |
+| `tool`          | Which tool to use for managing your dependencies. Currently `pixi` is the only option.                                                                   | No       |
+| `target_branch` | The branch to open a PR against with the updated versions. Defaults to `main`.                                                                           | No       |
 
 ## Limitations
 
-This project is still in progress and thus it comes with some limitations we are working on. Hopefully this will be gone by the time you read this, but currently the limitations are: 
+This project is still in progress and thus it comes with some limitations we are working on. Hopefully this will be gone by the time you read this, but currently the limitations are:
 
 - Only `pixi` is supported
 - if you have a higher bound than the one listed in SPEC 0 this is overwritten
-- higher bounds are deleted instead of maintained. 
+- higher bounds are deleted instead of maintained.
 - dependency groups are not yet supported
-

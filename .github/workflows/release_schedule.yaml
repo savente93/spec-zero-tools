@@ -10,13 +10,13 @@ jobs:
   create-artifacts:
     runs-on: ubuntu-latest
     permissions:
-        contents: write
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with: 
-            # We're going to make a tag that we can we release so we'll need the full history for that
-            fetch-depth: 0 
+        with:
+          # We're going to make a tag that we can we release so we'll need the full history for that
+          fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -28,7 +28,7 @@ jobs:
         run: |
           python spec_zero_versions.py
       - name: setup git
-        run : |
+        run: |
           # git will complain if we don't do this first
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
@@ -38,10 +38,9 @@ jobs:
         run: |
           echo "TAG_NAME=$(date '+%Y-Q%q')" >> "$GITHUB_OUTPUT"
 
-
       - name: create tag
         env:
-            TAG_NAME: ${{ steps.tag_name.outputs.TAG_NAME }}
+          TAG_NAME: ${{ steps.tag_name.outputs.TAG_NAME }}
         run: |
           git add schedule.md chart.md schedule.json
           git commit -m "Update SPEC 0 schedule artifacts"
@@ -51,16 +50,12 @@ jobs:
       - name: Publish github release
         uses: softprops/action-gh-release@v2
         env:
-            GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           generate_release_notes: true
-          tag_name:  ${{ steps.tag_name.outputs.TAG_NAME }}
+          tag_name: ${{ steps.tag_name.outputs.TAG_NAME }}
           make_latest: true
           files: |
             schedule.md
             chart.md
             schedule.json
-            
-
-
-
