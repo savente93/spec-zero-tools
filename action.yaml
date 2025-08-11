@@ -6,10 +6,10 @@ inputs:
     description: "Target branch for the pull request"
     required: true
     default: "main"
-  tool: # for now only pixi, but good to make others possible from the start
-    description: "Which tool you use for managing your environment."
+  project_file_name: 
+    description: "The filename to the project file that lists your dependencies, relative to the repository root. Defaults to 'pyproject.toml' Curretnly only pyproject.toml is supported but others may be added."
     required: true
-    default: "pixi"
+    default: "pyproject.toml"
   token:
     description: "GitHub token with repo permissions to create pull requests"
     required: true
@@ -17,14 +17,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Validate tool input
-      shell: bash
-      run: |
-        if [[ "${{ inputs.tool }}" != "pixi" ]]; then
-          echo "❌ Invalid tool: '${{ inputs.tool }}'"
-          echo "Accepted values are: 'pixi'"
-          exit 1
-        fi
     - name: Checkout code
       uses: actions/checkout@v4
       with:
@@ -42,16 +34,19 @@ runs:
 
       # make user pixi is available
     - uses: prefix-dev/setup-pixi@v0.8.14
-      if: ${{ inputs.tool == 'pixi' }}
       name: Setup pixi
       with:
+        environments: >-
+          update
+        activate-environment: update
         pixi-version: v0.49.0
+        manifest-path: ${{github.action_path}}/pyproject.toml
 
-    - name: Update Pixi dependencies
-      if: ${{ inputs.tool == 'pixi' }}
+    - name: Run Update script
       shell: bash
       run: |
-        "${{ github.action_path }}/update_pixi.sh"
+        python ${{github.action_path}}/update.py "${{github.workspace}}/${{inputs.project_file_path}}"
+
 
     - name: Create Pull Request
       uses: peter-evans/create-pull-request@v6
