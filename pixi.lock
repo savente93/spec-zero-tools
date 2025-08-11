@@ -939,7 +939,7 @@ packages:
 - pypi: ./
   name: spec-zero-tools
   version: 0.1.0
-  sha256: f055138b9e6c5fa0f9a4be072f21e62c26b0b07e159e5376092dbb35d86da202
+  sha256: 0a4320fdf6bed675d037f620da4018ab654acc41326fc3f4a41ab8392505b1ae
   requires_dist:
   - packaging>=25.0,<26
   requires_python: '>=3.11'
