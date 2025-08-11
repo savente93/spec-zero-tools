@@ -5,6 +5,11 @@ It also contains released versions of the schedule in various formats that that 
 
 ## Using the action
 
+To use the action you can copy the yaml below, and paste it into `.github/workflows/update-spec-0.yaml`. The arguments bewlow are filled with heir default value, in most cases you won't have to fill them. All except for `token` are optional. 
+
+Whenever the action is triggered it will open a PR in your repository that will update the dependencies of SPEC 0 to the new lower bound. For this you will have to provide it with a PAT that has write permissions in the `contents` and `pull request` scopes. Please refer to the GitHub documentation for instructions on how to do this [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
+
+
 ```yaml
 name: Update SPEC 0 dependencies
 
@@ -17,37 +22,26 @@ on:
     - cron: "0 0 2 */3 *"
 
 permissions:
-  contents: write
-  pull-requests: write
+    contents: write
+    pull-requests: write
 
 jobs:
-  update:
+    update:
     runs-on: ubuntu-latest
     steps:
-      - uses: scientific-python/spec-zero-tools@main
-        with:
-          token: ${{ secrets.GH_PAT }}
-          target_branch: main
-          tool: pixi
+        - uses: scientific-python/spec-zero-tools@v1
+    with: 
+        token: ${{ secrets.GH_PAT }}
+        project_file_name: "pyproject.toml"
+        target_branch: 'main'
+
+
 ```
 
-Whenever the action is triggered it will open a PR in your repository that will update the dependencies of SPEC 0 to the new lower bound. For this you will have to provide it with a PAT that has write permissions in the `contents` and `pull request` scopes. Please refer to the GitHub documentation for instructions on how to do this [here](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens).
-
-To help projects stay compliant with SPEC-0, we provide a `schedule.json` file that can be used by CI systems to determine new version boundaries.
-
-Currently the action can take the following inputs:
-
-| Name            | Description                                                                                                                                              | Required |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- | -------- |
-| `token`         | The token that the action will use to create and update the pull request. See [token](https://github.com/marketplace/actions/create-pull-request#token). | Yes      |
-| `tool`          | Which tool to use for managing your dependencies. Currently `pixi` is the only option.                                                                   | No       |
-| `target_branch` | The branch to open a PR against with the updated versions. Defaults to `main`.                                                                           | No       |
+It should update any of the packages listed in the `dependency`, or `tool.pixi.*` tables. 
 
 ## Limitations
 
-This project is still in progress and thus it comes with some limitations we are working on. Hopefully this will be gone by the time you read this, but currently the limitations are:
+1. since this action simply parses the toml to do the upgrade and leaves any other bounds in tackt, it is possible that the environment of the PR becomes unsolvable. For example if you have a numpy dependency like so: `numpy = ">=1.25.0,<2"` this will get updated in the PR to `numpy = "2.0.0,<2"` which is infeasable. Keeping the resulting environment is outside the scope of this action, so they might have to be adjusted manually. 
+2. Currently on `pyproject.toml` is supported by this action, though other manifest files could be considered upon request. 
 
-- Only `pixi` is supported
-- if you have a higher bound than the one listed in SPEC 0 this is overwritten
-- higher bounds are deleted instead of maintained.
-- dependency groups are not yet supported
