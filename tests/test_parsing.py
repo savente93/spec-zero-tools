@@ -28,6 +28,13 @@ def test_pep_dependency_parsing():
     assert spec is None, spec
 
 
+def test_pep_dependency_parsing_with_spec_and_optional_dep():
+    matplotlib_str = "matplotlib[foo,bar]>=3.7.0,<4"
+    pkg, spec = parse_pep_dependency(matplotlib_str)
+
+    assert pkg == "matplotlib[foo,bar]", pkg
+    assert spec == SpecifierSet(">=3.7.0,<4"), spec
+
 def test_pep_dependency_parsing_with_spec():
     matplotlib_str = "matplotlib>=3.7.0,<4"
     pkg, spec = parse_pep_dependency(matplotlib_str)

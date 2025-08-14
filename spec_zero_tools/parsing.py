@@ -12,7 +12,7 @@ from re import compile
 Url: TypeAlias = ParseResult
 
 # slightly modified version of https://packaging.python.org/en/latest/specifications/dependency-specifiers/#names
-PEP_PACKAGE_IDENT_RE = compile(r"(?im)^([A-Z0-9][A-Z0-9._-]*[A-Z0-9])(.*)$")
+PEP_PACKAGE_IDENT_RE = compile(r"(?im)^([A-Z0-9][A-Z0-9._-]*(?:\[[A-Z0-9._,-]+\])?)(.*)$")
 
 
 class SupportSchedule(TypedDict):
