@@ -46,6 +46,7 @@ runs:
       shell: bash
       run: |
         python ${{github.action_path}}/update.py "${{github.workspace}}/${{inputs.project_file_name}}"
+        rm schedule.json
 
 
     - name: Create Pull Request
