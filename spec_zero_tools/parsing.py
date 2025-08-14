@@ -12,7 +12,7 @@ from re import compile
 Url: TypeAlias = ParseResult
 
 # slightly modified version of https://packaging.python.org/en/latest/specifications/dependency-specifiers/#names
-PEP_PACKAGE_IDENT_RE = compile(r"(?im)^([A-Z0-9][A-Z0-9._-]*(?:\[[A-Z0-9._,-]+\])?)(.*)$")
+PEP_PACKAGE_IDENT_RE = compile(r"(?im)^([A-Z0-9][A-Z0-9._-]*)(\[[A-Z0-9._,-]+\])?(.*)$")
 
 
 class SupportSchedule(TypedDict):
@@ -54,26 +54,27 @@ def read_schedule(path: Path | str) -> Sequence[SupportSchedule]:
         return json.load(file)
 
 
-def parse_pep_dependency(dep_str: str) -> Tuple[str, SpecifierSet | Url | None]:
+def parse_pep_dependency(dep_str: str) -> Tuple[str, str | None, SpecifierSet | Url | None]:
     match = PEP_PACKAGE_IDENT_RE.match(dep_str)
     if match is None:
         raise ValueError("Could not find any valid python package identifier")
 
-    match_groups = match.groups()
+    pkg, extras, spec_str = match.groups()
 
-    pkg = match_groups[0]
-    # capture group could be empty
-    if len(match_groups) > 1 and match_groups[1]:
-        spec_str = match_groups[1]
-        if is_url_spec(spec_str):
-            spec = urlparse(spec_str.split("@")[1])
-        else:
-            spec = SpecifierSet(spec_str)
-    else:
+    extras = extras or None
+
+    if is_url_spec(spec_str):
+        spec = urlparse(spec_str.split("@")[1])
+    elif not spec_str:
         spec = None
+    else:
+        spec = SpecifierSet(spec_str)
 
-    return (pkg, spec)
+    return (pkg, extras, spec)
 
 
-def is_url_spec(str_spec: str) -> bool:
+def is_url_spec(str_spec: str|None) -> bool:
+    if str_spec is None:
+        return False
+
     return str_spec.strip().startswith("@")
