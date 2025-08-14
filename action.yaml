@@ -45,7 +45,7 @@ runs:
     - name: Run Update script
       shell: bash
       run: |
-        python ${{github.action_path}}/update.py "${{github.workspace}}/${{inputs.project_file_path}}"
+        python ${{github.action_path}}/update.py "${{github.workspace}}/${{inputs.project_file_name}}"
 
 
     - name: Create Pull Request
