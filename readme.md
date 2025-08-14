@@ -24,7 +24,7 @@ jobs:
   update:
     runs-on: ubuntu-latest
     steps:
-      - uses: scientific-python/spec-zero-tools@main
+      - uses: scientific-python/spec0-action@main # when this is merged and released, this should turn to @v1
         with:
           token: ${{ secrets.GH_PAT }}
           target_branch: main
