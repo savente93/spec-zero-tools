@@ -1,6 +1,6 @@
 [project]
 authors         = [{ name = "Sam Vente", email = "savente93@proton.me" }]
-name            = "spec-zero-tools"
+name            = "spec0-action"
 requires-python = ">= 3.11"
 version         = "0.1.0"
 dependencies    = ["packaging>=25.0,<26"]
@@ -15,10 +15,13 @@ channels  = ["conda-forge"]
 platforms = ["linux-64"]
 
 [tool.pixi.feature.update.pypi-dependencies]
-spec_zero_tools = { path = ".", editable = true }
+spec0-action = { path = ".", editable = true }
 
 [tool.pixi.feature.test.tasks]
 test = { cmd = ["pytest", "-vvv"] }
+
+[tool.pixi.feature.update.tasks]
+generate-schedule = { cmd = ["python", "generate_schedule.py"] }
 
 [tool.pixi.feature.test.dependencies]
 pytest = "*"

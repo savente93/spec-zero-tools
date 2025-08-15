@@ -19,9 +19,7 @@ jobs:
           fetch-depth: 0
       - name: Set up Python
         uses: actions/setup-python@v5
-        with:
-          # We're going to make a tag that we can we release so we'll need the full history for that
-          fetch-depth: 0
+
       - uses: prefix-dev/setup-pixi@v0.8.14
         with:
           pixi-version: "v0.49.0"
@@ -32,8 +30,8 @@ jobs:
       - name: setup git
         run: |
           # git will complain if we don't do this first
-          git config user.name "GitHub Actions Bot"
-          git config user.email "<>"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: determine tag name
         id: tag_name

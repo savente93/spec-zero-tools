@@ -937,9 +937,9 @@ packages:
   size: 18455
   timestamp: 1753199211006
 - pypi: ./
-  name: spec-zero-tools
+  name: spec0-action
   version: 0.1.0
-  sha256: 0a4320fdf6bed675d037f620da4018ab654acc41326fc3f4a41ab8392505b1ae
+  sha256: 149b80b08892df9d897253182a9c4b4b3f48f0b73e93325c58d42c2e2f0aac73
   requires_dist:
   - packaging>=25.0,<26
   requires_python: '>=3.11'

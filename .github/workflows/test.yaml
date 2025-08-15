@@ -1,4 +1,4 @@
-name: Generate release schedule artifacts
+name: Run the update test suite
 on:
   push:
     branches: main
@@ -10,8 +10,6 @@ on:
 jobs:
   create-artifacts:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4

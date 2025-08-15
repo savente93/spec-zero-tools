@@ -30,7 +30,7 @@ runs:
 
     - name: Download schedule artifact
       shell: bash
-      run: gh release download -R "savente93/spec-zero-tools" --pattern schedule.json --clobber
+      run: gh release download -R "scientific-python/spec0-action" --pattern schedule.json --clobber
 
       # make user pixi is available
     - uses: prefix-dev/setup-pixi@v0.8.14
