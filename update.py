@@ -1,4 +1,4 @@
-from spec_zero_tools import update_pyproject_toml, read_toml, write_toml, read_schedule
+from spec0_action import update_pyproject_toml, read_toml, write_toml, read_schedule
 from pathlib import Path
 from argparse import ArgumentParser
 
