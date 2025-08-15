@@ -63,7 +63,7 @@ runs:
 
 
     - name: Create Pull Request
-      if: ${{inputs.create_pr }}
+      if: ${{ inputs.create_pr == 'true' }}
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ inputs.token }}

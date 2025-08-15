@@ -4,7 +4,7 @@ on: [push, pull_request]
 jobs:
   generate_data:
     runs-on: ubuntu-latest
-    name: Generate version data
+    name: Update test project file
     steps:
       - name: Checkout
         uses: actions/checkout@v4
