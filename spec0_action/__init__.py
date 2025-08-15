@@ -2,8 +2,8 @@ from packaging.specifiers import SpecifierSet
 from typing import Sequence, cast
 import datetime
 
-from spec_zero_tools.versions import repr_spec_set, tighten_lower_bound
-from spec_zero_tools.parsing import (
+from spec0_action.versions import repr_spec_set, tighten_lower_bound
+from spec0_action.parsing import (
     SupportSchedule,
     Url,
     is_url_spec,

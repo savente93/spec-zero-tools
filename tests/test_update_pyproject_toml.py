@@ -1,5 +1,5 @@
-from spec_zero_tools.parsing import read_schedule, read_toml
-from spec_zero_tools import update_pyproject_toml
+from spec0_action.parsing import read_schedule, read_toml
+from spec0_action import update_pyproject_toml
 
 
 def test_update_pyproject_toml():
