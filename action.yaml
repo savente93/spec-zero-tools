@@ -10,6 +10,13 @@ inputs:
     description: "The filename to the project file that lists your dependencies, relative to the repository root. Defaults to 'pyproject.toml' Curretnly only pyproject.toml is supported but others may be added."
     required: true
     default: "pyproject.toml"
+  create_pr: 
+    description: "Whether the action should open a PR or not. If this is set to false, this action should have no effect. This is mainly useful for testing"
+    required: true
+    default: true
+  schedule_path:
+    description: "Path to the schedule.json file. If it does not exist yet, it will be downloaded from the spec0-action repository latest release"
+    default: schedule.json
   token:
     description: "GitHub token with repo permissions to create pull requests"
     required: true
@@ -50,6 +57,7 @@ runs:
 
 
     - name: Create Pull Request
+      if: ${{inputs.create_pr }}
       uses: peter-evans/create-pull-request@v6
       with:
         token: ${{ inputs.token }}
