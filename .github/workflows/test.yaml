@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  create-artifacts:
+  run-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
