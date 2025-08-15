@@ -26,7 +26,7 @@ jobs:
           environments: schedule
       - name: Run spec_zero_versions.py
         run: |
-          pixi run generate_schedule
+          pixi run -e schedule generate_schedule
       - name: setup git
         run: |
           # git will complain if we don't do this first

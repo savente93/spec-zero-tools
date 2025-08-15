@@ -939,7 +939,7 @@ packages:
 - pypi: ./
   name: spec0-action
   version: 0.1.0
-  sha256: 149b80b08892df9d897253182a9c4b4b3f48f0b73e93325c58d42c2e2f0aac73
+  sha256: af5bbf8d5b2207994b1d182b88167dc8de25271e802b84c07d4a2358c454dcf3
   requires_dist:
   - packaging>=25.0,<26
   requires_python: '>=3.11'
