@@ -42,6 +42,6 @@ It should update any of the packages listed in the `dependency`, or `tool.pixi.*
 
 ## Limitations
 
-1. since this action simply parses the toml to do the upgrade and leaves any other bounds in tackt, it is possible that the environment of the PR becomes unsolvable. For example if you have a numpy dependency like so: `numpy = ">=1.25.0,<2"` this will get updated in the PR to `numpy = "2.0.0,<2"` which is infeasable. Keeping the resulting environment is outside the scope of this action, so they might have to be adjusted manually. 
+1. since this action simply parses the toml to do the upgrade and leaves any other bounds in tackt, it is possible that the environment of the PR becomes unsolvable. For example if you have a numpy dependency like so: `numpy = ">=1.25.0,<2"` this will get updated in the PR to `numpy = "2.0.0,<2"` which is infeasable. Keeping the resulting environment solvable is outside the scope of this action, so they might have to be adjusted manually. 
 2. Currently on `pyproject.toml` is supported by this action, though other manifest files could be considered upon request. 
 
