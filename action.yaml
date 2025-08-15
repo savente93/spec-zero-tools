@@ -37,7 +37,12 @@ runs:
 
     - name: Download schedule artifact
       shell: bash
-      run: gh release download -R "scientific-python/spec0-action" --pattern schedule.json --clobber
+      env:
+        SCHEDULE_FILE: ${{ inputs.schedule_path }}
+      run: |
+        if [ ! -f "$SCHEDULE_FILE" ]; then
+          gh release download -R "scientific-python/spec0-action" --pattern schedule.json -O "$SCHEDULE_FILE"
+        fi
 
       # make user pixi is available
     - uses: prefix-dev/setup-pixi@v0.8.14
