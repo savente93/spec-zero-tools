@@ -29,13 +29,11 @@ jobs:
     update:
     runs-on: ubuntu-latest
     steps:
-        - uses: scientific-python/spec-zero-tools@v1
+        - uses: scientific-python/spec0-action@v1
     with: 
         token: ${{ secrets.GH_PAT }}
         project_file_name: "pyproject.toml"
         target_branch: 'main'
-
-
 ```
 
 It should update any of the packages listed in the `dependency`, or `tool.pixi.*` tables. 
