@@ -7,7 +7,7 @@ jobs:
     name: Update test project file
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Generate version data using local action
         uses: ./
         with: 
