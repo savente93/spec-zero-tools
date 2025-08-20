@@ -19,7 +19,7 @@ from packaging.version import Version
 __all__ = ["read_schedule", "read_toml", "write_toml", "update_pyproject_toml"]
 
 def update_pyproject_dependencies(dependencies: dict, schedule: SupportSchedule):
-    # iterate by idx because we want to update it inplace
+    # Iterate by idx because we want to update it inplace
     for i in range(len(dependencies)):
         dep_str = dependencies[i]
         pkg, extras, spec = parse_pep_dependency(dep_str)
@@ -30,9 +30,7 @@ def update_pyproject_dependencies(dependencies: dict, schedule: SupportSchedule)
         new_lower_bound = Version(schedule["packages"][pkg])
         try:
             spec = tighten_lower_bound(spec or SpecifierSet(), new_lower_bound)
-            # will raise a value error if bound is already tigheter, in this case we just do nothing and  continue
-
-
+            # Will raise a value error if bound is already tighter, in this case we just do nothing and  continue
         except ValueError:
             continue
 
@@ -46,11 +44,11 @@ def update_pyproject_dependencies(dependencies: dict, schedule: SupportSchedule)
 
 def update_dependency_table(dep_table: dict, new_versions: dict):
     for pkg, pkg_data in dep_table.items():
-        # don't do anything for pkgs that aren't in our schedule
+        # Don't do anything for pkgs that aren't in our schedule
         if pkg not in new_versions:
             continue
 
-        # like pkg = ">x.y.z,<a"
+        # Like pkg = ">x.y.z,<a"
         if isinstance(pkg_data, str):
             if not is_url_spec(pkg_data):
                 spec = parse_version_spec(pkg_data)
@@ -61,12 +59,12 @@ def update_dependency_table(dep_table: dict, new_versions: dict):
                 dep_table[pkg] = repr_spec_set(spec)
 
             else:
-                # we don't do anything with url spec dependencies
+                # We don't do anything with url spec dependencies
                 continue
         else:
-            # table like in tests = {path = "."}
+            # Table like in tests = {path = "."}
             if "path" in pkg_data:
-                # we don't do anything with path dependencies
+                # We don't do anything with path dependencies
                 continue
 
             spec = SpecifierSet(pkg_data["version"])

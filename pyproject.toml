@@ -1,10 +1,9 @@
 [project]
-authors         = [{ name = "Sam Vente", email = "savente93@proton.me" }]
+authors         = [{ name = "Scientific Python Developers" }]
 name            = "spec0-action"
 requires-python = ">= 3.11"
 version         = "0.1.0"
 dependencies    = ["packaging>=25.0,<26"]
-
 
 [build-system]
 build-backend = "hatchling.build"

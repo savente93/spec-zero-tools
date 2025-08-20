@@ -3,7 +3,7 @@ on:
   schedule:
     # At 00:00 on day-of-month 1 in every 3rd month. (i.e. every quarter)
     - cron: "0 0 1 */3 *"
-  # on demand
+  # On demand
   workflow_dispatch:
 
 jobs:

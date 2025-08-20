@@ -44,7 +44,6 @@ runs:
           gh release download -R "scientific-python/spec0-action" --pattern schedule.json -O "$SCHEDULE_FILE"
         fi
 
-      # make user pixi is available
     - uses: prefix-dev/setup-pixi@v0.8.14
       name: Setup pixi
       with:
@@ -60,7 +59,6 @@ runs:
         python ${{github.action_path}}/update.py "${{github.workspace}}/${{inputs.project_file_name}}" "${{inputs.schedule_path}}" 
         # let's cleanup after ourselves so it doesn't end up in the PR
         rm "${{inputs.schedule_path}}"
-
 
     - name: Create Pull Request
       if: ${{ inputs.create_pr == 'true' }}

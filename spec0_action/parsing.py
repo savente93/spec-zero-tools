@@ -8,10 +8,10 @@ from typing import Dict, Sequence, Tuple, TypedDict
 from pathlib import Path
 from re import compile
 
-# we won't actually do anything with URLs we just need to detect them
+# We won't actually do anything with URLs we just need to detect them
 Url: TypeAlias = ParseResult
 
-# slightly modified version of https://packaging.python.org/en/latest/specifications/dependency-specifiers/#names
+# Slightly modified version of https://packaging.python.org/en/latest/specifications/dependency-specifiers/#names
 PEP_PACKAGE_IDENT_RE = compile(r"(?im)^([A-Z0-9][A-Z0-9._-]*)(\[[A-Z0-9._,-]+\])?(.*)$")
 
 
@@ -22,11 +22,11 @@ class SupportSchedule(TypedDict):
 
 def parse_version_spec(s: str) -> SpecifierSet:
     if s.strip() == "*":
-        # python version numeric components must be non-negative so this is ookay
+        # Python version numeric components must be non-negative so this is okay
         # see https://packaging.python.org/en/latest/specifications/version-specifiers/
         return SpecifierSet(">=0")
     try:
-        # if we can simply parse it return it
+        # If we can simply parse it return it
         return SpecifierSet(s)
     except InvalidSpecifier:
         try:
