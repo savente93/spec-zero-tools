@@ -20,7 +20,7 @@ spec0-action = { path = ".", editable = true }
 test = { cmd = ["pytest", "-vvv"] }
 
 [tool.pixi.feature.schedule.tasks]
-generate-schedule = { cmd = ["python", "generate_schedule.py"] }
+generate-schedule = { cmd = ["python", "spec0-verions.py"] }
 
 [tool.pixi.feature.test.dependencies]
 pytest = "*"
